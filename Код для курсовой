@@ -16,8 +16,8 @@ using namespace std;
 class Direction {
 public:
     string name;
-    int trafficDensity; // машины в минуту
-    Direction(string n, int d) : name(n), trafficDensity(d) {}
+    int traffic_in_minute; // машины в минуту
+    Direction(string n, int d) : name(n), traffic_in_minute(d) {}
 };
 
 // Функция эмуляции работы светофора
@@ -27,17 +27,17 @@ void runTrafficLight(vector<Direction>& directions) {
     while (running) {
         cout << "\nТекущая ситуация на перекрестке:\n";
         for (auto& dir : directions) {
-            cout << dir.name << ": плотность потока = " << dir.trafficDensity << " машин/мин\n";
+            cout << dir.name << ": плотность потока = " << dir.traffic_in_minute << " машин/мин\n";
         }
 
-        Direction maxDensityDir = directions[0];
+        Direction max_traffic_min_Dir = directions[0];
         for (auto& dir : directions) {
-            if (dir.trafficDensity > maxDensityDir.trafficDensity)
-                maxDensityDir = dir;
+            if (dir.traffic_in_minute > max_traffic_min_Dir.traffic_in_minute)
+                max_traffic_min_Dir = dir;
         }
 
-        cout << "\nЗеленый свет на направлении: " << maxDensityDir.name << endl;
-        int greenTime = max(10, 60 - maxDensityDir.trafficDensity / 2);
+        cout << "\nЗеленый свет на направлении: " << max_traffic_min_Dir.name << endl;
+        int greenTime = max(10, 60 - max_traffic_min_Dir.traffic_in_minute / 2);
 
         cout << "Продолжительность зелёного сигнала: " << greenTime << " сек\n";
         this_thread::sleep_for(chrono::seconds(greenTime));
@@ -54,7 +54,7 @@ void runTrafficLight(vector<Direction>& directions) {
 }
 
 int main() {
-    system("chcp 65001"); //поддержка русского языка
+    system("chcp 65001"); 
     cout << "Алгоритм управления светофорами\n";
     setlocale(LC_ALL, "Russian");
     vector<Direction> directions = {
@@ -66,7 +66,7 @@ int main() {
 
     for (auto& dir : directions) {
         cout << "Введите плотность потока для направления " << dir.name << " (машин в минуту): ";
-        cin >> dir.trafficDensity;
+        cin >> dir.traffic_in_minute;
     }
 
     cout << "\nЗапуск управления светофорами...\n";
